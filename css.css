@@ -1,1 +1,111 @@
-let ogImageRatio;const uploadBox=document.querySelector(".upload-box"),previewImg=uploadBox.querySelector("img"),fileInput=uploadBox.querySelector("input"),widthInput=document.querySelector(".width input"),heightInput=document.querySelector(".height input"),ratioInput=document.querySelector(".ratio input"),qualityInput=document.querySelector(".quality input"),downloadBtn=document.querySelector(".download-btn");widthInput.addEventListener("keyup",()=>{var e=ratioInput.checked?widthInput.value/ogImageRatio:heightInput.value;heightInput.value=Math.floor(e)}),heightInput.addEventListener("keyup",()=>{var e=ratioInput.checked?heightInput.value*ogImageRatio:widthInput.value;widthInput.value=Math.floor(e)}),downloadBtn.addEventListener("click",()=>{let e=document.createElement("canvas"),t=document.createElement("a"),a=e.getContext("2d"),i=qualityInput.checked?.5:1;e.width=widthInput.value,e.height=heightInput.value,a.drawImage(previewImg,0,0,e.width,e.height),t.href=e.toDataURL("image/jpeg",i),t.download=(new Date).getTime(),t.click()}),fileInput.addEventListener("change",e=>{e=e.target.files[0];e&&(previewImg.src=URL.createObjectURL(e),previewImg.addEventListener("load",()=>{widthInput.value=previewImg.naturalWidth,heightInput.value=previewImg.naturalHeight,ogImageRatio=previewImg.naturalWidth/previewImg.naturalHeight,document.querySelector(".wrapper").classList.add("active")}))}),uploadBox.addEventListener("click",()=>fileInput.click()),uploadBox.addEventListener("dragover",e=>{e.preventDefault(),uploadBox.classList.add("dragover")}),uploadBox.addEventListener("dragleave",()=>{uploadBox.classList.remove("dragover")}),uploadBox.addEventListener("drop",e=>{e.preventDefault(),uploadBox.classList.remove("dragover");e=e.dataTransfer.files;if(0<e.length){const t=e[0];t.type.startsWith("image/")&&(previewImg.src=URL.createObjectURL(t),previewImg.addEventListener("load",()=>{widthInput.value=previewImg.naturalWidth,heightInput.value=previewImg.naturalHeight,ogImageRatio=previewImg.naturalWidth/previewImg.naturalHeight,document.querySelector(".wrapper").classList.add("active")}))}});
+@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap);
+.row .column label,
+.sizes .column input,
+.upload-box p {
+  font-size: 1.06rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #222;
+}
+.wrapper {
+  width: 450px;
+  height: 288px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 9px;
+  transition: height 0.2s;
+}
+.wrapper.active {
+  height: 537px;
+}
+.wrapper .upload-box {
+  height: 225px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 2px dashed #222;
+}
+.wrapper.active .upload-box {
+  border: none;
+}
+.upload-box p {
+  margin-top: 20px;
+}
+.wrapper.active .upload-box p {
+  display: none;
+}
+.wrapper.active .upload-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.wrapper .content {
+  opacity: 0;
+  margin-top: 28px;
+  pointer-events: none;
+}
+.wrapper.active .content {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.5s 50ms;
+}
+.content .row {
+  display: flex;
+  justify-content: space-between;
+}
+.content .row .column {
+  width: calc(100% / 2 - 15px);
+}
+.sizes .column input {
+  width: 100%;
+  height: 49px;
+  outline: 0;
+  margin-top: 7px;
+  padding: 0 15px;
+  border-radius: 4px;
+  border: 1px solid #222;
+}
+.sizes .column input:focus {
+  padding: 0 14px;
+  border: 2px solid #222;
+}
+.content .checkboxes {
+  margin-top: 20px;
+}
+.checkboxes .column {
+  display: flex;
+  align-items: center;
+}
+.checkboxes .column input {
+  width: 17px;
+  height: 17px;
+  margin-right: 9px;
+  accent-color: #222;
+}
+.content .download-btn {
+  width: 100%;
+  color: #fff;
+  outline: 0;
+  border: none;
+  cursor: pointer;
+  font-size: 1.06rem;
+  border-radius: 5px;
+  padding: 15px 0;
+  margin: 30px 0 10px;
+  background: #222;
+  text-transform: uppercase;
+}
