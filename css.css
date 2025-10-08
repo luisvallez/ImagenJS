@@ -80,7 +80,7 @@ body {
   margin-top: 7px;
   padding: 0 15px;
   border-radius: 4px;
-  border: 1px solid #222;
+  border: none;
 }
 .content .row {
   display: flex;
